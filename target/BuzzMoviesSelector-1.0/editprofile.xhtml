@@ -1,0 +1,109 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+    <f:metadata>
+        <f:viewAction action="#{loginBean.checkLogout}" />
+    </f:metadata>
+    
+
+    <f:view contentType="text/html">
+        <h:head>
+            <title>Edit Profile</title>
+        </h:head>
+        <h:body>
+            <p:layout style="min-width:400px; min-height:800px;">
+                <ui:include src="/menu.xhtml" />
+                <p:layoutUnit position="center">
+                    <h:form>
+                        <p:panel id="panel" header="Edit Profile" style="border-style: none">
+                            <p:messages id="msgs" />
+
+                            <h:panelGrid columns="2" cellpadding="5">
+                                
+                                <p:outputLabel for="firstname" value="First Name:" />
+                                <p:inplace id="fninplace" label="#{editProfileController.firstName}" effectSpeed="fast">
+                                    <p:inputText id="firstname" label="firstname" required="true" maxlength="16" value="#{editProfileController.firstName}" requiredMessage = "First name is required">
+                                        <f:validateRequired />
+                                    </p:inputText> 
+                                </p:inplace>
+
+                                <p:outputLabel  for="lastname" value="Last Name:" />
+                                <p:inplace id="lninplace" label="#{editProfileController.lastName}" effectSpeed="fast">
+                                    <p:inputText id="lastname" label="lastname" required="true" maxlength="16" value="#{editProfileController.lastName}" requiredMessage = "Last name is required">
+                                        <f:validateRequired />
+                                    </p:inputText> 
+                                </p:inplace>
+                                
+                                <h:outputLabel for="email" value="Email:"/>
+                                <p:inplace id="emailinplace" label="#{editProfileController.emailLabel}" effectSpeed="fast">
+                                    <p:inputText id="email" value="#{editProfileController.email}" maxlength="32"/>
+                                </p:inplace>
+                                
+                                <h:outputLabel for="phone" value="Phone:"/>
+                                <p:inplace id="phoneinplace" label="#{editProfileController.phoneLabel}" effectSpeed="fast">
+                                    <p:inputText id="phone" value="#{editProfileController.phoneNumber}" maxlength="10">
+                                    </p:inputText>
+                                </p:inplace>
+                                
+                                <p:outputLabel for="major" value="Major: " rendered="#{!loginBean.admin}"/>
+                                <p:inplace id="majorinplace" label="#{editProfileController.majorLabel}" effectSpeed="fast" rendered="#{!loginBean.admin}">
+                                    <p:selectOneMenu id="major"  style="width:150px" rendered="#{!loginBean.admin}" 
+                                                     value="#{editProfileController.selectedMajor}"
+                                    >
+                                        <f:selectItem itemLabel="Select One" itemValue="-1" />
+                                        <f:selectItems value="#{editProfileController.majors}" />
+                                    </p:selectOneMenu>
+                                </p:inplace>
+                                
+                                <p:outputLabel for="gender" value="Gender: " rendered="#{!loginBean.admin}"/>
+                                <p:inplace id="genderinplace" label="#{editProfileController.genderLabel}" effectSpeed="fast" rendered="#{!loginBean.admin}">
+                                    <p:selectOneMenu id="gender"  style="width:150px" rendered="#{!loginBean.admin}" 
+                                                     value="#{editProfileController.selectedGender}"
+                                    >
+                                        <f:selectItem itemLabel="Select One" itemValue="-1" />
+                                        <f:selectItems value="#{editProfileController.genders}" />
+                                    </p:selectOneMenu>
+                                </p:inplace>
+                                
+                                <p:outputLabel for="interest" value="Interests: " rendered="#{!loginBean.admin}"/>
+                                <p:inplace id="interestinplace" label="#{editProfileController.interestLabel}" effectSpeed="fast" rendered="#{!loginBean.admin}">
+                                    <h:panelGrid columns="1">
+                                        <p:inputTextarea id="interest" rows="5" value="#{editProfileController.interest}" cols="30" counter="display"  maxlength="256" counterTemplate="{0} characters remaining." rendered="#{!loginBean.admin}"/>
+                                        <h:outputText id="display" rendered="#{!loginBean.admin}"/>
+                                    </h:panelGrid>
+                                </p:inplace>
+                                                                                                   
+                            </h:panelGrid>
+                            
+                            <h:panelGrid  columns="1" style="padding: 20px 320px">
+                                
+                                <p:commandButton id="save" value="Save" update="panel"  icon="ui-icon-check" actionListener="#{editProfileController.save}"/>
+                                
+                            </h:panelGrid>
+
+                        </p:panel>
+                    </h:form>
+                </p:layoutUnit>
+                
+                <p:dialog header="Confirmation" widgetVar="dlg" resizable="false" showEffect="explode" width="400" height="100" closable="false" modal="true" showHeader="false" draggable="false" style="text-align: center; border-style: none">
+                        <h:panelGrid columns="1" style="padding-left:40px; padding-top: 10px; font-weight: bold">
+                            <h:outputText value="Do you want to save the change?" />               
+                        </h:panelGrid>
+                        <h:form>
+                            <h:panelGrid columns="2" style="padding-left:110px; padding-top: 10px">       
+                                <p:commandButton id="yes" value="Yes" actionListener="#{editProfileController.commit()}" />
+                                <p:commandButton id="no" value="No" onclick="window.location=('editprofile.xhtml');"/>    
+                            </h:panelGrid>
+                        </h:form>
+                </p:dialog>            
+            </p:layout>
+        </h:body>
+        
+        
+
+    </f:view>
+</html>
+

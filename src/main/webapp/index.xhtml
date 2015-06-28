@@ -1,0 +1,39 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+    <f:metadata>
+        <f:viewAction action="#{loginBean.checkLogin}" />
+    </f:metadata>
+    <h:head>
+        <title>Welcome Page</title>
+        <script type="text/javascript" language="javascript">
+            jQuery(document).ready(function() {
+                $('form').css('padding-left', $(window).width()/2 - 250);
+                $('form').css('padding-right', $(window).width()/2 - 250);
+                $('form').css('padding-top', $(window).height()/3);
+                $('form').css('width', '500px');
+            });
+            
+            $( window ).resize(function() {
+                $('form').css('padding-left', $(window).width()/2 - 250);
+                $('form').css('padding-right', $(window).width()/2 - 250);
+                $('form').css('padding-top', $(window).height()/3);
+                $('form').css('width', '500px');
+            });
+        </script>
+    </h:head>
+    <h:body>
+        <h:form id="form">
+            <p:panel id="panel" header="Welcome to Buzz Movies Selector" style="text-align: center">            
+                <h:panelGrid columns="2" style="padding-left: 110px">
+                     <p:commandButton value="Login" action="login?faces-redirect=true" icon="ui-icon-check" />
+                     <p:commandButton value="Register" action="registration?faces-redirect=true" icon="ui-icon-check" />
+                </h:panelGrid> 
+            </p:panel>
+        </h:form>
+    </h:body>
+</html>
+
