@@ -71,7 +71,7 @@ public class MovieDialogController implements Serializable  {
      * Rating setter.
      * @param newRating the given score of the rating
      */
-    public final void setRatinf(final Rating newRating) {
+    public final void setRating(final Rating newRating) {
         if (newRating != null) {
             rating = newRating;
         }
