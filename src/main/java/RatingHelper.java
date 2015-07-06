@@ -30,6 +30,9 @@ public final class RatingHelper {
         PreparedStatement pst = null;
 
         List<Rating> ratings = new ArrayList<>();
+        if (newMovieId == null) {
+            return ratings;
+        }
 
         try {
             con = Connector.getConnection();
