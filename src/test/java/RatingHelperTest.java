@@ -1,6 +1,7 @@
 import java.util.List;
 import static org.junit.Assert.assertEquals;
 import org.junit.Test;
+import org.postgresql.util.PSQLException;
 
 /**
  * Test for the RatingHelper test.
@@ -13,10 +14,7 @@ public class RatingHelperTest {
      * By Dun Huang
      */
     @Test
-    public final void testFindRatingsByMovieId() {
-        List<Rating> movieList1 = RatingHelper.findRatingsByMovieId(null);
-        //When moveId passed in is null, return a an empty MovieList;
-        assertEquals(0, movieList1.size());
+    public final void testInsertOrUpdateRating() {
         //since movieId cannot contain an letter in Rotten Tomatoes API, we
         // can use it as a test case which doesn't affect our system at all
         final String testMovieId = "9999999a";
@@ -28,7 +26,7 @@ public class RatingHelperTest {
         RatingHelper.deleteRatingByMovieIdAndUser(testMovieId, testUser1);
         RatingHelper.deleteRatingByMovieIdAndUser(testMovieId, testUser2);
 
-        // Insert a new Rating.
+        // Insert a new Rating. (ratingId -1 would never exist in the database)
         RatingHelper.insertOrUpdateRating(
                 new Rating(-1, testUser1, testMovieId, null, 0));
         assertEquals(1, RatingHelper.findRatingsByMovieId(testMovieId).size());
@@ -39,7 +37,9 @@ public class RatingHelperTest {
         assertEquals(2, RatingHelper.findRatingsByMovieId(testMovieId).size());
 
         List<Rating> ratingList = RatingHelper
-                .findRatingsByMovieId(testMovieId);
+                    .findRatingsByMovieId(testMovieId);
+
+
 
         for (Rating rating:ratingList) {
             /*test that the information in the database is correct and update
