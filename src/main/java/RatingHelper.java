@@ -146,6 +146,45 @@ public final class RatingHelper {
     }
 
     /**
+     * Delete the rating of given movieId and user Id.
+     * @param movieId given movieId
+     * @param user given userId
+     */
+    public static void deleteRatingByMovieIdAndUser(final String movieId, final
+            int user) {
+        Connection con = null;
+        PreparedStatement pst = null;
+        try {
+            con = Connector.getConnection();
+            try {
+                String stm = "delete from tb_rating where movieid = ? "
+                        + "and \"user\" = ?";
+                pst = con.prepareStatement(stm);
+                pst.setString(1, movieId);
+                pst.setInt(2, user);
+                pst.execute();
+            } catch (SQLException e1) {
+            Logger.getLogger(UserManager.class.getName())
+                .log(Level.SEVERE, null, e1);
+            } finally {
+                    pst.close();
+            }
+        } catch (ClassNotFoundException | SQLException ex) {
+            Logger.getLogger(UserManager.class.getName())
+                .log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                if (con != null) {
+                        con.close();
+                }
+            } catch (SQLException ex) {
+                Logger.getLogger(UserManager.class.getName())
+                    .log(Level.SEVERE, null, ex);
+            }
+        }
+    }
+
+    /**
      * Parse the filter to get a list of Ratings with top 24.
      * highest average scores
      * @param filters a list of filters
