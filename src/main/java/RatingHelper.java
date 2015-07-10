@@ -30,6 +30,9 @@ public final class RatingHelper {
         PreparedStatement pst = null;
 
         List<Rating> ratings = new ArrayList<>();
+        if (newMovieId == null) {
+            return ratings;
+        }
 
         try {
             con = Connector.getConnection();
@@ -121,6 +124,45 @@ public final class RatingHelper {
                 } finally {
                         pst.close();
                 }
+            } catch (SQLException e1) {
+            Logger.getLogger(UserManager.class.getName())
+                .log(Level.SEVERE, null, e1);
+            } finally {
+                    pst.close();
+            }
+        } catch (ClassNotFoundException | SQLException ex) {
+            Logger.getLogger(UserManager.class.getName())
+                .log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                if (con != null) {
+                        con.close();
+                }
+            } catch (SQLException ex) {
+                Logger.getLogger(UserManager.class.getName())
+                    .log(Level.SEVERE, null, ex);
+            }
+        }
+    }
+
+    /**
+     * Delete the rating of given movieId and user Id.
+     * @param movieId given movieId
+     * @param user given userId
+     */
+    public static void deleteRatingByMovieIdAndUser(final String movieId, final
+            int user) {
+        Connection con = null;
+        PreparedStatement pst = null;
+        try {
+            con = Connector.getConnection();
+            try {
+                String stm = "delete from tb_rating where movieid = ? "
+                        + "and \"user\" = ?";
+                pst = con.prepareStatement(stm);
+                pst.setString(1, movieId);
+                pst.setInt(2, user);
+                pst.execute();
             } catch (SQLException e1) {
             Logger.getLogger(UserManager.class.getName())
                 .log(Level.SEVERE, null, e1);
