@@ -4,6 +4,11 @@
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <script type="text/javascript">var switchTo5x=true;</script>
+        <script type="text/javascript" src="http://w.sharethis.com/button/buttons.js"></script>
+        <script type="text/javascript">stLight.options({publisher: "6fbdfbf7-c0e8-47d6-ad1a-79ef832950fa", doNotHash: false, doNotCopy: false, hashAddressBar: false});</script>
+    </h:head>
     <p:layoutUnit position="west" header="Hello! #{loginBean.firstName}, #{loginBean.lastName}" style="min-width: 200px; border: none">
         <h:form>
             <p:menu style="background: none; border: none">
@@ -21,6 +26,12 @@
                     <p:menuitem value="Log Out" icon="ui-icon-home" action="#{loginBean.logout()}" />
                     </p:submenu>
             </p:menu>
+            <span class='st_facebook_large' displayText='Facebook'></span>
+            <span class='st_twitter_large' displayText='Tweet'></span>
+            <span class='st_reddit_large' displayText='Reddit'></span>
+            <span class='st_linkedin_large' displayText='LinkedIn'></span>
+            <span class='st_pinterest_large' displayText='Pinterest'></span>
+            <span class='st_email_large' displayText='Email'></span>
         </h:form>
     </p:layoutUnit>
 </ui:composition>
