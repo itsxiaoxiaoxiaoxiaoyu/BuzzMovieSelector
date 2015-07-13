@@ -29,7 +29,6 @@ public class UserManagerTest {
         assertEquals(UserManager.find("should not be found").getMajor(),
                                 0);
     }
-    }
     /**
      * Tests the find() method for user exists.
      */
