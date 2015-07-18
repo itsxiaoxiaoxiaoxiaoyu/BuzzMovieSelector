@@ -1,11 +1,15 @@
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
+import org.primefaces.context.RequestContext;
 
 /**
  * LoginController class which communicates with login page
@@ -32,6 +36,11 @@ public class LoginController implements Serializable {
      * fail count.
      */
     private final Map<String, Integer> failCount = new HashMap<>();
+    
+    /**
+     * forgot password email
+     */
+    private String email;
 
     /**
      * the login bean.
@@ -53,6 +62,14 @@ public class LoginController implements Serializable {
      */
     public final String getPassword() {
         return password;
+    }
+
+    /**
+     * get string of email.
+     * @return password in string
+     */
+    public final String getEmail() {
+        return email;
     }
 
     /**
@@ -81,6 +98,14 @@ public class LoginController implements Serializable {
      */
     public final void setPassword(final String newPassword) {
         this.password = newPassword;
+    }
+
+    /**
+     * set email
+     * @param newEmail the password been giving to the user
+     */
+    public final void setEmail(final String newEmail) {
+        this.email = newEmail;
     }
 
     /**
@@ -156,5 +181,12 @@ public class LoginController implements Serializable {
      */
     public final String cancel() {
         return "index?faces-redirect=true";
+    }
+
+    /**
+     * the action when the user clicks Forgot Password.
+     */
+    public final void forgetPassword() {
+        UserManager.find("aaa");
     }
 }

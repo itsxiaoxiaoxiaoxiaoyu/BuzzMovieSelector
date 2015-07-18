@@ -421,7 +421,7 @@ public final class UserManager {
                         + "where \"user\" = ?";
 
                 pst = con.prepareStatement(stm);
-                pst.setString(field++, updatedUser.getPassword());
+                pst.setString(field++, Encryptor.encrypt(updatedUser.getPassword()));
                 pst.setString(field++, updatedUser.getFirstName());
                 pst.setString(field++, updatedUser.getLastName());
                 pst.setString(field++, updatedUser.getEmail());
@@ -456,5 +456,66 @@ public final class UserManager {
                     .log(Level.SEVERE, null, ex);
             }
         }
+    }
+
+    /**
+     * Static method find which returns information of the user with given
+     * username.
+     * @param email username of user expected to be found
+     * @return User object which contains all information of the user
+     */
+    public static User findUserByEmail(final String email) {
+        Connection con = null;
+        PreparedStatement pst = null;
+        User user = new User();
+
+        try {
+            con = Connector.getConnection();
+            String stm = "select * from tb_user where email = ?";
+
+            try {
+                pst = con.prepareStatement(stm);
+                pst.setString(1, email);
+                pst.execute();
+                ResultSet rs = pst.getResultSet();
+
+                if (rs.next()) {
+                    user.setPassword(rs.getString("password"));
+                    user.setUsername(rs.getString("username"));
+                    user.setUser(rs.getInt("user"));
+                    user.setEmail(rs.getString("email"));
+                    user.setPhone(rs.getString("phone"));
+                    user.setFirstName(rs.getString("firstname"));
+                    user.setLastName(rs.getString("lastname"));
+                    user.setMajor(rs.getInt("major"));
+                    user.setGender(rs.getInt("gender"));
+                    user.setRole(rs.getInt("role"));
+                    user.setStatus(rs.getInt("status"));
+                    user.setInterest(rs.getString("interest"));
+                }
+            } catch (SQLException e1) {
+                Logger.getLogger(UserManager.class.getName())
+                    .log(Level.SEVERE, null, e1);
+            } finally {
+                if (pst != null) {
+                    pst.close();
+                }
+            }
+        } catch (ClassNotFoundException | SQLException ex) {
+            Logger.getLogger(
+                UserManager.class.getName()).log(Level.SEVERE, null, ex
+            );
+        } finally {
+            try {
+                if (con != null) {
+                    con.close();
+                }
+            } catch (SQLException ex) {
+                Logger.getLogger(UserManager.class.getName())
+                    .log(Level.SEVERE, null, ex);
+            }
+        }
+
+        return user;
     }
 }
